@@ -24,18 +24,39 @@ Proyek ini dikembangkan dan dijalankan di **Google Colab**, namun dapat dijalank
 ### Cara Menjalankan Proyek
 
 #### 1. **Menjalankan di Google Colab (Rekomendasi)**
-   - **Langkah 1**: Buka Google Colab [di sini](https://colab.research.google.com).
-   - **Langkah 2**: Pilih **File** → **Upload notebook** dan unggah file `submission_akhir_klasifikasi_gambar.ipynb` dari folder **submission_Klasifikasi Gambar**.
-   - **Langkah 3**: Pastikan semua dependensi telah diinstal. Di Colab, cukup jalankan sel berikut:
+
+1. **Upload Notebook**
+   - Buka [Google Colab](https://colab.research.google.com/)
+   - Upload file `submission_akhir_klasifikasi_gambar.ipynb`
+
+2. **Upload API Key Kaggle**
+   - Diperlukan untuk mengunduh dataset dari Kaggle.
+   - Langkah-langkah:
+     - Login ke [Kaggle](https://www.kaggle.com)
+     - Masuk ke akun → **Account** → **Create New API Token**
+     - File `kaggle.json` akan otomatis terunduh
+     - Upload file tersebut di Colab dengan kode berikut:
+       ```python
+       from google.colab import files
+       files.upload()  # Upload kaggle.json
+       ```
+     - Jalankan konfigurasi berikut:
+       ```python
+       !mkdir -p ~/.kaggle
+       !cp kaggle.json ~/.kaggle/
+       !chmod 600 ~/.kaggle/kaggle.json
+       ```
+
+3. **Unduh Dataset dari Kaggle**
+   - Setelah `kaggle.json` terkonfigurasi:
      ```python
-     !pip install -r submission/requirements.txt
+     !kaggle datasets download -d aditmagotra/gameplay-images
+     !unzip gameplay-images.zip
      ```
-   - **Langkah 4**: Jalankan seluruh sel pada notebook untuk memulai proses training, evaluasi, dan prediksi model.
 
-   **Catatan**: Google Colab sudah menyediakan GPU secara gratis, sehingga lebih cepat untuk training model.
-
----
-
+4. **Jalankan Notebook**
+   - Jalankan sel-sel secara berurutan dari atas ke bawah untuk memproses data, melatih model, dan menyimpan hasil konversi model.
+     
 #### 2. **Menjalankan di Lokal (VS Code / Terminal)**
    Untuk menjalankan proyek di **lingkungan lokal**, pastikan mengikuti langkah-langkah berikut:
 
@@ -52,19 +73,39 @@ Proyek ini dikembangkan dan dijalankan di **Google Colab**, namun dapat dijalank
      ```bash
      pip install -r submission/requirements.txt
      ```
+   - **Langkah 4**: Siapkan kaggle.json
+     - Login ke https://www.kaggle.com
+     - Masuk ke menu Account > Create New API Token
+     - File kaggle.json akan terunduh secara otomatis
+      Simpan file tersebut ke direktori berikut:
+        Untuk Windows:
+       
+           mkdir %USERPROFILE%\.kaggle
+           copy path\to\kaggle.json %USERPROFILE%\.kaggle\
+       
+       Untuk Mac/Linux:
+       
+            mkdir -p ~/.kaggle
+            cp path/to/kaggle.json ~/.kaggle/
+            chmod 600 ~/.kaggle/kaggle.json
 
-   - **Langkah 4**: Jika menggunakan **TensorFlow GPU**, pastikan **CUDA** dan **cuDNN** telah terinstal di komputer. Jika tidak, proyek ini masih dapat berjalan di CPU.
+   - **Langkah 5** : Unduh Dataset
+   Gunakan perintah berikut untuk mengunduh dataset dari Kaggle:
 
-   - **Langkah 5**: Pastikan path ke folder model (`saved_model`, `tflite`, `tfjs_model`) sudah benar. Jika perlu, sesuaikan path di dalam notebook atau file Python dengan lokasi folder di lokal.
+         kaggle datasets download -d aditmagotra/gameplay-images
+   Setelah proses unduh selesai, ekstrak file-nya:
 
-   - **Langkah 6**: Jalankan file Python atau notebook di lokal:
-     - Untuk notebook:
-       - Buka `submission_akhir_klasifikasi_gambar.ipynb` di VS Code menggunakan **Jupyter Notebook** atau **VS Code Python extension**.
-       - Jalankan seluruh sel untuk melakukan training dan prediksi.
+      unzip gameplay-images.zip
+      # atau gunakan tar -xf jika dataset dalam format .tar
+      
+   - **Langkah 6**: Jalankan Notebook
 
-   - **Langkah 7**: Jika ingin menggunakan model, pastikan model yang digunakan ada di folder `submission/saved_model`, `submission/tflite`, atau `submission/tfjs_model`.
+     - Buka file submission_akhir_klasifikasi_gambar.ipynb menggunakan Jupyter Notebook atau VS Code (dengan Jupyter Extension)
 
+      - Jalankan seluruh cell secara berurutan dari atas ke bawah
 ---
+
+
 
 ### Dependensi Utama
 Pastikan kamu menginstal paket-paket berikut di lingkungan lokal:
